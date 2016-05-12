@@ -1,7 +1,8 @@
 
 // have an array of arrays and each index represents increasing levels and difficulties
 var Game = function(ctx, canvasEl) {
-  this.words = ['jeff', 'michelle','nguyen','hi','bye','why','zebra']; 
+  // bug when using single letters
+  this.words = ['ab', 'ba', 'de', 'zo', 'er', 'fi', 'plme', 'hey', 'cool', 'typ', 'game', 'okay', 'lore', 'ips', 'ner', 'woo']; 
   this.ctx = ctx;
   this.canvasEl = canvasEl;
   this.wordQueue = [];
@@ -47,12 +48,17 @@ Game.prototype.searchString = function(code){
         else {
           if (this.currentTarget === this.wordQueue[idx].text){
             if (this.wordQueue[idx].text.substring(1).length === 0){
+              // alert if last move and win
+
               // reset currentTarget to find new ones
               this.currentTarget = null;
               this.wordQueue[idx].text = this.wordQueue[idx].text.substring(1);
               var temp = {word: this.wordQueue[idx]}
               // remove the empty string from the queue
               this.wordQueue.splice(idx, 1);
+              if (this.wordQueue.length === 0){
+                alert('You win!');
+              }
               return temp;
             } else {
               this.currentTarget = this.wordQueue[idx].text.substring(1);
@@ -70,12 +76,16 @@ Game.prototype.searchString = function(code){
 }
 
 Game.prototype.dropLetter = function() {
-
   this.ctx.clearRect(0,0, this.canvasEl.width, this.canvasEl.height);
 
   this.count++;
   if (this.count === 10){
     var posX = Math.random() * 480;
+    if (posX > 240) {
+      posX - 160;
+    } else {
+      posX + 160;
+    }
     var posY = 0;
 
     if (this.words.length > 0){
@@ -87,6 +97,7 @@ Game.prototype.dropLetter = function() {
     }
   }
 
+  this.ctx.font="24px sans-serif";
   this.ctx.fillStyle = "#042fcf";
   for (var i=0; i < this.wordQueue.length; i++){
     if(this.wordQueue[i].y <= (this.canvasEl.height)-1) {

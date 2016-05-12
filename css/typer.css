@@ -6,13 +6,14 @@
   bottom: 0;
   margin: auto;
   border: 0;
-  z-index: 2;
+  z-index: -1;
   box-shadow: 0 0 30px #000;
   background-color: black;
 }
 
 #score {
-  position: absolute;
+  width: 35%;
+  margin: 0 auto;
   z-index: 3;
   padding: 5px;
   color: red;
